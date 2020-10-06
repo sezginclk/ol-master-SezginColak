@@ -53,52 +53,74 @@ InitializeMap = () => {
         dataType: "json",
         success: function (response) {
             const features = [];
-
-            $.each(response, function (i, value) {
-
-
-                features.push(new ol.Feature({
-                    geometry: new ol.geom.Point([
-                        value.CoordinateX, value.CoordinateY
-                    ])
-                }));
+            console.log(response);
+            if (response != null) {
+                $.each(response, function (i, value) {
 
 
-            });
+                    features.push(new ol.Feature({
+                        geometry: new ol.geom.Point([
+                            value.CoordinateX, value.CoordinateY
+                        ])
+                    }));
 
 
-
-            // create the source and layer for random features
-            const vectorSource = new ol.source.Vector({
-                features
-            });
-            const vectorLayer = new ol.layer.Vector({
-                source: vectorSource,
-                style: new ol.style.Style({
-                    image: new ol.style.Circle({
-                        radius: 8,
-                        fill: new ol.style.Fill({ color: 'red' })
+                });
+                // create the source and layer for random features
+                const vectorSource = new ol.source.Vector({
+                    features
+                });
+                const vectorLayer = new ol.layer.Vector({
+                    source: vectorSource,
+                    style: new ol.style.Style({
+                        image: new ol.style.Circle({
+                            radius: 8,
+                            fill: new ol.style.Fill({ color: 'red' })
+                        })
                     })
-                })
-            });
+                });
 
-            _Source = new ol.source.Vector({ wrapX: false });
-
+                _Source = new ol.source.Vector({ wrapX: false });
 
 
-            _Map = new ol.Map({
-                target: 'map',
-                layers: [
-                    new ol.layer.Tile({
-                        source: new ol.source.OSM()
-                    }),
-                    vectorLayer
-                ],
-                view: new ol.View({
-                    center: [3875337.272593909, 4673762.797695817],
-                    zoom: 7
-                })
-            });
+
+                _Map = new ol.Map({
+                    target: 'map',
+                    layers: [
+                        new ol.layer.Tile({
+                            source: new ol.source.OSM()
+                        }),
+                        vectorLayer
+                    ],
+                    view: new ol.View({
+                        center: [3875337.272593909, 4673762.797695817],
+                        zoom: 7
+                    })
+                });
+            }
+            else {
+                _Source = new ol.source.Vector({ wrapX: false });
+
+                _Layer = new ol.layer.Vector({
+                    source: _Source,
+                });
+
+                _Map = new ol.Map({
+                    target: 'map',
+                    layers: [
+                        new ol.layer.Tile({
+                            source: new ol.source.OSM()
+                        }),
+                        _Layer
+                    ],
+                    view: new ol.View({
+                        center: [3875337.272593909, 4673762.797695817],
+                        zoom: 7
+                    })
+                });
+            }
+
+
 
             AddInteraction();
         }

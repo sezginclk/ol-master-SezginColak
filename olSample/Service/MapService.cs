@@ -29,7 +29,7 @@ namespace olSample.Service
                 List<AddRecordRequest> okunanJson = JsonConvert.DeserializeObject<List<AddRecordRequest>>(JsonOkunanData);
 
                 if (okunanJson == null) okunanJson = new List<AddRecordRequest>();
-                
+
                 okunanJson.Add(request);
 
 
@@ -47,13 +47,23 @@ namespace olSample.Service
 
         public List<AddRecordRequest> GetMapRecord()
         {
+            List<AddRecordRequest> okunanJson = new List<AddRecordRequest>();
+
+
             try
             {
                 string JsonOkunanData = File.ReadAllText(@"C:\JsonIslemlerim\MapRecord.json");
 
-                List<AddRecordRequest> okunanJson = JsonConvert.DeserializeObject<List<AddRecordRequest>>(JsonOkunanData);
+                List<AddRecordRequest> willAdd = JsonConvert.DeserializeObject<List<AddRecordRequest>>(JsonOkunanData);
+                if (willAdd != null)
+                {
+                    return willAdd;
+                }
+                else
+                {
+                    return okunanJson;
+                }
 
-                return okunanJson;
 
             }
             catch (Exception ex)
