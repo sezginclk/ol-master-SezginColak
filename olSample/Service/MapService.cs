@@ -69,7 +69,7 @@ namespace olSample.Service
             catch (Exception ex)
             {
 
-                return null;
+                return okunanJson;
             }
 
         }
